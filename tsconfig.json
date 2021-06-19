@@ -2,6 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "noImplicitAny": false,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -16,7 +17,12 @@
     "importHelpers": true,
     "target": "es2017",
     "module": "es2020",
+    "typeRoots": [
+      "../node_modules/@types"
+    ], 
     "lib": [
+      "es6",
+      "es2015",
       "es2018",
       "dom"
     ]
@@ -28,3 +34,4 @@
     "strictTemplates": true
   }
 }
+

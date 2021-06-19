@@ -1,1 +1,23 @@
-<p>blocks works!</p>
+<div #idClassBlock class="class-block">  
+    <div #idMoveSpot 
+        (mousedown)= "moveSpotOnMouseDown($event)" 
+        (mouseup)= "moveSpotOnMouseUp($event)" 
+        (mouseover)= "moveSpotOnMouseOver($event)" 
+        (mouseleave)= "moveSpotOnMouseLeave($event)"           
+        class="move-spot">      
+    </div> 
+
+    <p class="class-name">{{getNewClassName}}</p> 
+
+    <button #iddeleteClassBlockButton (click)="deleteClassBlockButtonOnClick($event)" 
+            class="delete-button">X</button> 
+            
+    <input type="text" name="getNewClassName" [(ngModel)]="getNewClassName" 
+        (change) = "inputOnChange($event)" 
+        (click) = "inputOnChange($event)" 
+        (focus)= "inputOnChange($event)" 
+        #idInputClassName class="input-class-name" value={{getNewClassName}}>
+    
+    <!-- <button (click)="save($event)">Save</button>  -->
+    <ng-content></ng-content>
+</div>

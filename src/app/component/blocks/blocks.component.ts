@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
+import {data} from '../main-page/main-page.component';
 
 let X = 0;
 let Y = 0;
 let selectedObject: any; 
 var activeElemId = {id: 0};
-let dataCount = 0;
 
 @Component({
   selector: 'app-blocks',
@@ -12,54 +12,47 @@ let dataCount = 0;
   styleUrls: ['./blocks.component.sass']
 })
 
-export class BlocksComponent implements OnInit {
+export class BlocksComponent implements AfterViewInit {
 
   @ViewChild('idClassBlock') classBlock!: ElementRef;
   @ViewChild('idMoveSpot') moveSpot!: ElementRef;
   @ViewChild('iddeleteClassBlockButton') deleteClassBlockButton!: ElementRef;
   @ViewChild('idInputClassName') inputClassName!: ElementRef; 
   
-  data = new Array(); 
-
   blocksData = {
     // blockId : dataCount,
     blockId : "block_0",
     blockClassName : "New Class"
   }
 
+  // data = new Array();
+
   getNewClassName: string;
 
   constructor() { this.getNewClassName = this.blocksData.blockClassName; }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     
-    this.localStorageInit();
   }
 
-  localStorageInit() {
-    if (!localStorage.getItem('localStorageData')) {
-      this.data.push(JSON.parse(JSON.stringify(this.blocksData)));
-      localStorage.setItem('localStorageData', JSON.stringify(this.data));   
-    } else {
-      this.data = JSON.parse(localStorage.getItem('localStorageData') || '{}');
-    }
-    console.log(this.data);
-  } 
+  ngAfterViewInit(){ 
+    //this.localStorageInit(); 
+  }   
 
-  inputOnChange(event: any){
-    let ia = "onfocus => " + event.target.parentNode.id;
+  inputOnChange(event: any){ 
+    // let ia = "onfocus => " + event.target.parentNode.id;
     activeElemId.id = event.target.parentNode.id; 
-    // console.log({ia});
-     
+    console.log( activeElemId.id);
+
     // activeElemId.id = this.inputClassName.nativeElement.parentNode.id;
-    for (let index = 0; index < this.data.length; index++) {
-      const blkID = this.data[index].blockId;
+    for (let index = 0; index < data.length; index++) {
+      const blkID = data[index].blockId;
       if(activeElemId.id == blkID){
         // console.log(activeElemId.id + " : " + blkID); 
         // console.log(data); 
-        this.data[index].blockClassName = this.inputClassName.nativeElement.value;
+        data[index].blockClassName = this.inputClassName.nativeElement.value;
       }      
-    } 
+    }  
   }
    
   moveSpotOnMouseOver(event: any){
@@ -104,15 +97,15 @@ export class BlocksComponent implements OnInit {
   }
   
   deleteClassBlockButtonOnClick(event: any){
-    for (let index = 0; index < this.data.length; index++) {
-        const blkID = this.data[index].blockId;
+    for (let index = 0; index < data.length; index++) {
+        const blkID = data[index].blockId;
         // if(activeElemId.id == blkID){
         if(this.classBlock.nativeElement.id == blkID){
           console.log(activeElemId.id + " : " + blkID); 
-          console.log(this.data); 
+          console.log(data); 
           
-          this.data.splice(index, 1); 
-          localStorage.setItem('localStorageData', JSON.stringify(this.data));
+          data.splice(index, 1); 
+          localStorage.setItem('localStorageData', JSON.stringify(data));
 
           let classBlockParent = this.classBlock.nativeElement.parentNode.parentNode;
           classBlockParent.removeChild(this.classBlock.nativeElement.parentNode);
