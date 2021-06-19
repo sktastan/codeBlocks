@@ -6,7 +6,7 @@ import { Component,
         ElementRef, 
         AfterViewInit } from '@angular/core';
 import { BlocksComponent } from '../blocks/blocks.component';
-import { Data } from '@angular/router';
+// import { Data } from '@angular/router';
 
 
 // let X = 0;
@@ -17,9 +17,6 @@ export var data = new Array();
 // let newBlock; 
 let dataCount = 0;
 // export var data = new Array();
-
-// export var data = [{}]; 
-// export let data: Array<Object>;
 
 function localStorageInit() {
   if (!localStorage.getItem('localStorageData')) {
@@ -47,10 +44,25 @@ export class MainPageComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
+   
   }
 
   ngAfterViewInit(){
-    localStorageInit();
+    localStorageInit(); 
+
+    for (let i = 0; i < data.length; i++) {      
+      const factory = this.componentFactoryResolver.resolveComponentFactory(BlocksComponent);
+      const ref = this.viewContainerRef.createComponent(factory);
+      ref.changeDetectorRef.detectChanges();
+
+      ref.instance.blocksData = data[i];
+      ref.instance.getNewClassName = ref.instance.blocksData.blockClassName;
+
+      // ref.instance.blocksData.blockId = data[i].blockId;
+      // ref.instance.blocksData.blockClassName = data[i].blockClassName;
+      ref.instance.classBlock.nativeElement.setAttribute('id', data[i].blockId);
+      dataCount++;
+    }
   }
 
   pageMouseMove(event: any): void{
