@@ -59,6 +59,9 @@ export class MainPageComponent implements AfterViewInit {
       ref.instance.blocksData = data[i];
       ref.instance.getNewClassName = ref.instance.blocksData.blockClassName;
       ref.instance.classBlock.nativeElement.setAttribute('id', data[i].blockId);
+
+      ref.instance.classBlock.nativeElement.style.left = ref.instance.blocksData.X;
+      ref.instance.classBlock.nativeElement.style.top = ref.instance.blocksData.Y;
     }
   }
 
