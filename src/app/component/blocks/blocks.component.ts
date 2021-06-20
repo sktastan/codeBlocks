@@ -20,9 +20,10 @@ export class BlocksComponent implements AfterViewInit {
   @ViewChild('idInputClassName') inputClassName!: ElementRef; 
   
   blocksData = {
-    // blockId : dataCount,
     blockId : "block_0",
-    blockClassName : "New Class"
+    blockClassName : "New Class",
+    X : 10,
+    Y : 10
   }
 
   getNewClassName: string;
@@ -76,6 +77,8 @@ export class BlocksComponent implements AfterViewInit {
   moveSpotOnMouseMove(event: any){
     selectedObject.parentNode.style.left = (event.clientX - X) + 'px';
     selectedObject.parentNode.style.top =  (event.clientY - Y) + 'px';
+    this.blocksData.X = (event.clientX - X);
+    this.blocksData.Y =  (event.clientY - Y);
     // console.log('moveSpotOnMouseMove!'); 
   }
   
