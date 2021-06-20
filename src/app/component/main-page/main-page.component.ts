@@ -8,7 +8,6 @@ import { Component,
 import { BlocksComponent } from '../blocks/blocks.component';
 // import { Data } from '@angular/router';
 
-
 // let X = 0;
 // let Y = 0;
 
