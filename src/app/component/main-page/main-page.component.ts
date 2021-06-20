@@ -14,10 +14,6 @@ import { BlocksComponent } from '../blocks/blocks.component';
 
 export var data = new Array(); 
 
-// let newBlock; 
-let dataCount = 0;
-// export var data = new Array();
-
 function localStorageInit() {
   if (!localStorage.getItem('localStorageData')) {
     // data.push(JSON.parse(JSON.stringify('localStorageData', data)));
@@ -29,6 +25,16 @@ function localStorageInit() {
   console.log(data); 
 } 
 
+	//--------------------------------------------------------//
+	// 					Generate random id                     
+	//--------------------------------------------------------//
+	function randomID(prefix, maxNum) {
+
+		var randomId = prefix + Math.floor(Math.random() * maxNum);
+		return randomId;
+
+	}
+
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -39,13 +45,9 @@ export class MainPageComponent implements AfterViewInit {
   @ViewChild('idDisplayXY') displayXY!: ElementRef;
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
-  }
-
-  ngOnInit(): void {
-   
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(){
     localStorageInit(); 
@@ -57,11 +59,7 @@ export class MainPageComponent implements AfterViewInit {
 
       ref.instance.blocksData = data[i];
       ref.instance.getNewClassName = ref.instance.blocksData.blockClassName;
-
-      // ref.instance.blocksData.blockId = data[i].blockId;
-      // ref.instance.blocksData.blockClassName = data[i].blockClassName;
       ref.instance.classBlock.nativeElement.setAttribute('id', data[i].blockId);
-      dataCount++;
     }
   }
 
@@ -74,25 +72,16 @@ export class MainPageComponent implements AfterViewInit {
     const factory = this.componentFactoryResolver.resolveComponentFactory(BlocksComponent);
     const ref = this.viewContainerRef.createComponent(factory);
     ref.changeDetectorRef.detectChanges(); 
-    ref.instance.blocksData.blockId = "block_" + dataCount; 
-    ref.instance.classBlock.nativeElement.setAttribute('id', "block_" + dataCount);    
+
+    let randomid = randomID('block_', 99999);
+    ref.instance.blocksData.blockId = randomid;
+    ref.instance.classBlock.nativeElement.setAttribute('id', randomid); 
 
     data.push(JSON.parse(JSON.stringify(ref.instance.blocksData)));
     console.log(data);
 
-    dataCount++;
-
     let refIns = ref.instance;    
-    console.log({refIns});
-
-    // newBlock = new BlocksComponent(); 
-    // newBlock.blocksData.blockId = "block_" + dataCount; dataCount++;  
-
-    // data.push(JSON.parse(JSON.stringify(classData)));  
-    // localStorage.setItem('localStorageData', JSON.stringify(data));  
-    
-    // newBlock.data.push(JSON.parse(JSON.stringify(newBlock.blocksData))); 
-    // console.log(newBlock.data);  
+    console.log({refIns}); 
   }
 
   saveAllData(){
