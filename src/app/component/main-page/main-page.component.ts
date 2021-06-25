@@ -8,15 +8,11 @@ import { Component,
 import { BlocksComponent } from '../blocks/blocks.component';
 // import { Data } from '@angular/router';
 
-// let X = 0;
-// let Y = 0;
-
 export var data = new Array(); 
 
 function localStorageInit() {
   if (!localStorage.getItem('localStorageData')) {
-    // data.push(JSON.parse(JSON.stringify('localStorageData', data)));
-    //data.push(JSON.parse(JSON.stringify('localStorageData')));
+    // data.push(JSON.parse(JSON.stringify('localStorageData', data)));        
     localStorage.setItem('localStorageData', JSON.stringify(data));   
   } else { 
     data = JSON.parse(localStorage.getItem('localStorageData') || '{}');
@@ -48,7 +44,8 @@ export class MainPageComponent implements AfterViewInit {
 
   ngOnInit(): void {}
 
-  ngAfterViewInit(){
+  ngAfterViewInit(){     
+    
     localStorageInit(); 
 
     for (let i = 0; i < data.length; i++) {      
@@ -60,9 +57,20 @@ export class MainPageComponent implements AfterViewInit {
       ref.instance.getNewClassName = ref.instance.blocksData.blockClassName;
       ref.instance.classBlock.nativeElement.setAttribute('id', data[i].blockId);
 
-      ref.instance.classBlock.nativeElement.style.left = ref.instance.blocksData.X;
-      ref.instance.classBlock.nativeElement.style.top = ref.instance.blocksData.Y;
+      ref.instance.classBlock.nativeElement.style.left = ref.instance.blocksData.x + 'px';
+      ref.instance.classBlock.nativeElement.style.top = ref.instance.blocksData.y + 'px';
     }
+
+    let mainpageEl = document.body.getElementsByClassName('main-page');
+    let firstAppBlock = mainpageEl[0].getElementsByTagName('app-blocks'); 
+    //console.log({firstAppBlock});
+    mainpageEl[0].removeChild(firstAppBlock[0]); 
+
+    // let allEl = document.body.getElementsByClassName('main-page');
+    // let s = allEl[0].getElementsByTagName('app-blocks'); 
+    // console.log({s});
+    // allEl[0].removeChild(s[0]); 
+
   }
 
   pageMouseMove(event: any): void{
@@ -80,10 +88,10 @@ export class MainPageComponent implements AfterViewInit {
     ref.instance.classBlock.nativeElement.setAttribute('id', randomid); 
 
     data.push(JSON.parse(JSON.stringify(ref.instance.blocksData)));
-    console.log(data);
+    // console.log(data);
 
     let refIns = ref.instance;    
-    console.log({refIns}); 
+    // console.log({refIns}); 
   }
 
   saveAllData(){
