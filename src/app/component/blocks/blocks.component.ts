@@ -28,14 +28,26 @@ export class BlocksComponent implements AfterViewInit {
 
   getNewClassName: string = " ";
 
+  //--------------------------------------------------------//
+	//  constructor          
+	//--------------------------------------------------------//
   constructor() { }
 
+  //--------------------------------------------------------//
+	//  ngOnInit         
+	//--------------------------------------------------------//
   ngOnInit(): void { }
 
+  //--------------------------------------------------------//
+	//  ngAfterViewInit         
+	//--------------------------------------------------------//
   ngAfterViewInit(){ 
     this.getNewClassName = this.blocksData.blockClassName; 
   }   
 
+  //--------------------------------------------------------//
+	//  inputOnChange          
+	//--------------------------------------------------------//
   inputOnChange(event: any){ 
     activeElemId.id = event.target.parentNode.id; 
     console.log( activeElemId.id);
@@ -46,7 +58,10 @@ export class BlocksComponent implements AfterViewInit {
       }      
     }  
   }
-   
+  
+  //--------------------------------------------------------//
+	//  moveSpotOnMouseOver             
+	//--------------------------------------------------------//
   moveSpotOnMouseOver(event: any){
     //this.moveSpot.nativeElement.parentNode.style.boxShadow = '#000 1px 1px 10px';
     // this.moveSpot.nativeElement.parentNode.style.border = '2px solid pink';
@@ -54,11 +69,17 @@ export class BlocksComponent implements AfterViewInit {
     // console.log('moveSpotOnMouseOver!');
   }
 
+  //--------------------------------------------------------//
+	//  moveSpotOnMouseLeave                 
+	//--------------------------------------------------------//
   moveSpotOnMouseLeave(event: any){
     event.target.parentNode.style.boxShadow = '#2C3E50 1px 1px 1px';
     // console.log('moveSpotOnMouseLeave!');
   }
 
+  //--------------------------------------------------------//
+	//  moveSpotOnMouseDown				                  
+	//--------------------------------------------------------//
   moveSpotOnMouseDown(event: any){
     event.preventDefault();
     selectedObject = event.target; 
@@ -77,6 +98,9 @@ export class BlocksComponent implements AfterViewInit {
     activeElemId.id = selectedObject.parentNode.getAttribute('id');
   }
 
+  //--------------------------------------------------------//
+	// 	moveSpotOnMouseUp				                  
+	//--------------------------------------------------------//
   moveSpotOnMouseUp(event: any){ 
     
     // this.blocksData.x = (event.clientX - X);
@@ -94,12 +118,18 @@ export class BlocksComponent implements AfterViewInit {
     }    
   }
 
+  //--------------------------------------------------------//
+	// 	moveSpotOnMouseMove				                  
+	//--------------------------------------------------------//
   moveSpotOnMouseMove(event: any){
     selectedObject.parentNode.style.left = (event.clientX - X) + 'px';
     selectedObject.parentNode.style.top =  (event.clientY - Y) + 'px';
     // console.log('moveSpotOnMouseMove!');  (event.clientX - X)
   }
   
+  //--------------------------------------------------------//
+	//  deleteClassBlockButtonOnClick				                  
+	//--------------------------------------------------------//
   deleteClassBlockButtonOnClick(event: any){
     for (let index = 0; index < data.length; index++) {
         const blkID = data[index].blockId;
@@ -116,6 +146,9 @@ export class BlocksComponent implements AfterViewInit {
       }    
   }
 
+  //--------------------------------------------------------//
+	//  clearAllBorderState					                  
+	//--------------------------------------------------------//
   clearAllBorderState(){
     let allEl = this.classBlock.nativeElement.parentNode.parentNode.querySelectorAll('.class-block');
     for (let index = 0; index < allEl.length; index++) { 
@@ -124,6 +157,9 @@ export class BlocksComponent implements AfterViewInit {
     }    
   }
 
+  //--------------------------------------------------------//
+	// 	clearAllZIndexState				                  
+	//--------------------------------------------------------//
   clearAllZIndexState(){
     let allEl = this.classBlock.nativeElement.parentNode.parentNode.querySelectorAll('.class-block');
     for (let index = 0; index < allEl.length; index++) { 
@@ -131,6 +167,9 @@ export class BlocksComponent implements AfterViewInit {
     }   
   }
 
+  //--------------------------------------------------------//
+	// 	setCssStyle				                  
+	//--------------------------------------------------------//
   setCssStyle(style, value){
     // let allEl = this.classBlock.nativeElement.parentNode.parentNode.querySelectorAll('.class-block');
     // for (let index = 0; index < allEl.length; index++) { 
