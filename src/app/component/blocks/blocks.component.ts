@@ -22,17 +22,19 @@ export class BlocksComponent implements AfterViewInit {
   blocksData = {
     blockId : "block_0",
     blockClassName : "New Class",
-    X : 10,
-    Y : 10
+    x : 0,
+    y : 0
   }
 
-  getNewClassName: string;
+  getNewClassName: string = " ";
 
-  constructor() { this.getNewClassName = this.blocksData.blockClassName; }
+  constructor() { }
 
   ngOnInit(): void { }
 
-  ngAfterViewInit(){ }   
+  ngAfterViewInit(){ 
+    this.getNewClassName = this.blocksData.blockClassName; 
+  }   
 
   inputOnChange(event: any){ 
     activeElemId.id = event.target.parentNode.id; 
@@ -60,9 +62,14 @@ export class BlocksComponent implements AfterViewInit {
   moveSpotOnMouseDown(event: any){
     event.preventDefault();
     selectedObject = event.target; 
-    this.clearBorderState();
+    this.clearAllBorderState();
+    this.clearAllZIndexState();
+    
     this.moveSpot.nativeElement.parentNode.style.border = '2px solid yellow';
+    this.moveSpot.nativeElement.parentNode.style.zIndex = 10000;
     window.addEventListener('mousemove', this.moveSpotOnMouseMove, false);
+
+    // this.setCssStyle('border', '10px solid pink');
 
     X = event.clientX - selectedObject.parentNode.offsetLeft;  
     Y = event.clientY - selectedObject.parentNode.offsetTop;
@@ -70,16 +77,27 @@ export class BlocksComponent implements AfterViewInit {
     activeElemId.id = selectedObject.parentNode.getAttribute('id');
   }
 
-  moveSpotOnMouseUp(event: any){
+  moveSpotOnMouseUp(event: any){ 
+    
+    // this.blocksData.x = (event.clientX - X);
+    // this.blocksData.y = (event.clientY - Y);
+
+    console.log('x position : ' +   (event.clientX - X), 'y position : ' +  (event.clientY - Y)); 
     window.removeEventListener('mousemove', this.moveSpotOnMouseMove, false);
+
+    for (let index = 0; index < data.length; index++) {
+      const blkID = data[index].blockId;
+      if(this.classBlock.nativeElement.id == blkID){
+        data[index].x = (event.clientX - X);
+        data[index].y = (event.clientY - Y);
+      }      
+    }    
   }
 
   moveSpotOnMouseMove(event: any){
     selectedObject.parentNode.style.left = (event.clientX - X) + 'px';
     selectedObject.parentNode.style.top =  (event.clientY - Y) + 'px';
-    this.blocksData.X = (event.clientX - X);
-    this.blocksData.Y =  (event.clientY - Y);
-    // console.log('moveSpotOnMouseMove!'); 
+    // console.log('moveSpotOnMouseMove!');  (event.clientX - X)
   }
   
   deleteClassBlockButtonOnClick(event: any){
@@ -98,11 +116,29 @@ export class BlocksComponent implements AfterViewInit {
       }    
   }
 
-  clearBorderState(){
+  clearAllBorderState(){
     let allEl = this.classBlock.nativeElement.parentNode.parentNode.querySelectorAll('.class-block');
     for (let index = 0; index < allEl.length; index++) { 
       allEl[index].style.border = '1px solid #2C3E50';
+      // allEl[index].style.zIndex = 0;
     }    
+  }
+
+  clearAllZIndexState(){
+    let allEl = this.classBlock.nativeElement.parentNode.parentNode.querySelectorAll('.class-block');
+    for (let index = 0; index < allEl.length; index++) { 
+      allEl[index].style.zIndex = 0;
+    }   
+  }
+
+  setCssStyle(style, value){
+    // let allEl = this.classBlock.nativeElement.parentNode.parentNode.querySelectorAll('.class-block');
+    // for (let index = 0; index < allEl.length; index++) { 
+    //   allEl[index].setAttribute('style', style + ':' + value);
+    // }   
+
+    this.classBlock.nativeElement.setAttribute('style', style + ':' + value);
+
   }
 
 }
