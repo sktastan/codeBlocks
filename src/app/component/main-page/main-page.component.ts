@@ -10,26 +10,6 @@ import { BlocksComponent } from '../blocks/blocks.component';
 
 export var data = new Array(); 
 
-function localStorageInit() {
-  if (!localStorage.getItem('localStorageData')) {
-    // data.push(JSON.parse(JSON.stringify('localStorageData', data)));        
-    localStorage.setItem('localStorageData', JSON.stringify(data));   
-  } else { 
-    data = JSON.parse(localStorage.getItem('localStorageData') || '{}');
-  }
-  console.log(data); 
-} 
-
-	//--------------------------------------------------------//
-	// 					Generate random id                     
-	//--------------------------------------------------------//
-	function randomID(prefix, maxNum) {
-
-		var randomId = prefix + Math.floor(Math.random() * maxNum);
-		return randomId;
-
-	}
-
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -40,14 +20,50 @@ export class MainPageComponent implements AfterViewInit {
   @ViewChild('idDisplayXY') displayXY!: ElementRef;
   @ViewChild('container', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
 
+  //--------------------------------------------------------//
+	//  constructor           
+	//--------------------------------------------------------//
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
+  //--------------------------------------------------------//
+	//  ngOnInit           
+	//--------------------------------------------------------//
   ngOnInit(): void {}
 
+  //--------------------------------------------------------//
+	//  ngAfterViewInit           
+	//--------------------------------------------------------//
   ngAfterViewInit(){     
-    
-    localStorageInit(); 
+    this.localStorageInit(); 
+    this.removeFirstBlock();
+    this.initAllBlocks();   
+  }
 
+  //--------------------------------------------------------//
+	//  Generate random id                     
+	//--------------------------------------------------------//
+	randomID(prefix, maxNum) {
+		var randomId = prefix + Math.floor(Math.random() * maxNum);
+		return randomId;
+	}
+
+  //--------------------------------------------------------//
+	// 	localStorageInit	                     
+	//--------------------------------------------------------//
+  localStorageInit() {
+  if (!localStorage.getItem('localStorageData')) {
+    // data.push(JSON.parse(JSON.stringify('localStorageData', data)));        
+    localStorage.setItem('localStorageData', JSON.stringify(data));   
+  } else { 
+    data = JSON.parse(localStorage.getItem('localStorageData') || '{}');
+  }
+  console.log(data); 
+  } 
+
+  //--------------------------------------------------------//
+	//  initAllBlocks           
+	//--------------------------------------------------------//
+  initAllBlocks(){
     for (let i = 0; i < data.length; i++) {      
       const factory = this.componentFactoryResolver.resolveComponentFactory(BlocksComponent);
       const ref = this.viewContainerRef.createComponent(factory);
@@ -60,30 +76,34 @@ export class MainPageComponent implements AfterViewInit {
       ref.instance.classBlock.nativeElement.style.left = ref.instance.blocksData.x + 'px';
       ref.instance.classBlock.nativeElement.style.top = ref.instance.blocksData.y + 'px';
     }
+  }
 
+  //--------------------------------------------------------//
+	//  removeFirstBlock           
+	//--------------------------------------------------------//
+  removeFirstBlock(){
     let mainpageEl = document.body.getElementsByClassName('main-page');
     let firstAppBlock = mainpageEl[0].getElementsByTagName('app-blocks'); 
     //console.log({firstAppBlock});
     mainpageEl[0].removeChild(firstAppBlock[0]); 
-
-    // let allEl = document.body.getElementsByClassName('main-page');
-    // let s = allEl[0].getElementsByTagName('app-blocks'); 
-    // console.log({s});
-    // allEl[0].removeChild(s[0]); 
-
   }
 
-  pageMouseMove(event: any): void{
+  //--------------------------------------------------------//
+	//  pageMouseMove           
+	//--------------------------------------------------------//
+  pageMouseMove(event: any){
     this.displayXY.nativeElement.innerHTML = 'x: '+ event.clientX + ' y: '+ event.clientY ;    
   }
 
-  addClassBlockOnClick() {
-    
+  //--------------------------------------------------------//
+	//  addClassBlockOnClick             
+	//--------------------------------------------------------//
+  addClassBlockOnClick() {    
     const factory = this.componentFactoryResolver.resolveComponentFactory(BlocksComponent);
     const ref = this.viewContainerRef.createComponent(factory);
     ref.changeDetectorRef.detectChanges(); 
 
-    let randomid = randomID('block_', 99999);
+    let randomid = this.randomID('block_', 99999);
     ref.instance.blocksData.blockId = randomid;
     ref.instance.classBlock.nativeElement.setAttribute('id', randomid); 
 
@@ -94,8 +114,10 @@ export class MainPageComponent implements AfterViewInit {
     // console.log({refIns}); 
   }
 
+  //--------------------------------------------------------//
+	//  saveAllData              
+	//--------------------------------------------------------//
   saveAllData(){
     localStorage.setItem('localStorageData', JSON.stringify(data)); 
   } 
-
 }
