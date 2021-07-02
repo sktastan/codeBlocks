@@ -31,7 +31,7 @@ export class BlocksComponent implements AfterViewInit {
   //--------------------------------------------------------//
 	//  constructor          
 	//--------------------------------------------------------//
-  constructor() { }
+  // constructor() { }
 
   //--------------------------------------------------------//
 	//  ngOnInit         
@@ -49,7 +49,7 @@ export class BlocksComponent implements AfterViewInit {
 	//  inputOnChange          
 	//--------------------------------------------------------//
   inputOnChange(event: any){ 
-    activeElemId.id = event.target.parentNode.id; 
+    activeElemId.id = event.target.parentNode.parentNode.id; 
     console.log( activeElemId.id);
     for (let index = 0; index < data.length; index++) {
       const blkID = data[index].blockId;
@@ -65,7 +65,10 @@ export class BlocksComponent implements AfterViewInit {
   moveSpotOnMouseOver(event: any){
     //this.moveSpot.nativeElement.parentNode.style.boxShadow = '#000 1px 1px 10px';
     // this.moveSpot.nativeElement.parentNode.style.border = '2px solid pink';
-    event.target.parentNode.style.boxShadow = '#2C3E50 1px 1px 10px';
+
+    // event.target.parentNode.style.border = '1px solid red';
+    // event.target.parentNode.style.boxShadow = '#2C3E50 1px 1px 1px';
+    
     // console.log('moveSpotOnMouseOver!');
   }
 
@@ -73,7 +76,8 @@ export class BlocksComponent implements AfterViewInit {
 	//  moveSpotOnMouseLeave                 
 	//--------------------------------------------------------//
   moveSpotOnMouseLeave(event: any){
-    event.target.parentNode.style.boxShadow = '#2C3E50 1px 1px 1px';
+    // event.target.parentNode.style.border = '1px solid #2C3E50';
+    // event.target.parentNode.style.boxShadow = '#2C3E50 1px 1px 10px';
     // console.log('moveSpotOnMouseLeave!');
   }
 
@@ -86,7 +90,7 @@ export class BlocksComponent implements AfterViewInit {
     this.clearAllBorderState();
     this.clearAllZIndexState();
     
-    this.moveSpot.nativeElement.parentNode.style.border = '2px solid yellow';
+    this.moveSpot.nativeElement.parentNode.style.border = '2px solid #afef22';
     this.moveSpot.nativeElement.parentNode.style.zIndex = 10000;
     window.addEventListener('mousemove', this.moveSpotOnMouseMove, false);
 
@@ -152,7 +156,8 @@ export class BlocksComponent implements AfterViewInit {
   clearAllBorderState(){
     let allEl = this.classBlock.nativeElement.parentNode.parentNode.querySelectorAll('.class-block');
     for (let index = 0; index < allEl.length; index++) { 
-      allEl[index].style.border = '1px solid #2C3E50';
+      allEl[index].style.border = '2px solid #2C3E50';
+      // allEl[index].style.border = '4px solid #CA2C68';
       // allEl[index].style.zIndex = 0;
     }    
   }
@@ -179,5 +184,65 @@ export class BlocksComponent implements AfterViewInit {
     this.classBlock.nativeElement.setAttribute('style', style + ':' + value);
 
   }
+
+  // --------------------------------------------------------- //
+  // Drag start function
+  // --------------------------------------------------------- //
+  drag(ev) { 
+
+    ev.dataTransfer.setData("text/plain", ev.target.id);
+
+    var img = new Image();
+    img.src = '../assets/add_icon.png';
+    ev.dataTransfer.setDragImage(img, 0, 0);
+ 
+  }
+ 
+  // --------------------------------------------------------- //
+  // Drag over function
+  // --------------------------------------------------------- //
+  dragover(ev) {
+
+     ev.preventDefault();
+
+    // if (ev.preventDefault) {
+    //     ev.preventDefault(); // Necessary. Allows us to drop.
+    // }
+
+    // ev.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+    // return false;
+  
+  }
+
+  // --------------------------------------------------------- //
+  // Drag end function
+  // --------------------------------------------------------- //
+  drop(ev) {  
+    ev.preventDefault();
+    // Get the id of the target and add the moved element to the target's DOM
+    var data = ev.dataTransfer.getData("text"); 
+    console.log('active => ' + data);  
+    // var child = ev.target.appendChild(document.getElementById(data));
+    var child = ev.target.parentNode.parentNode.appendChild(document.getElementById(data));
+    console.log( ev.target.offsetLeft );
+    child.style.top =  (ev.target.parentNode.offsetTop +  ev.target.parentNode.offsetHeight + 15 ) + 'px';
+    child.style.left =  (ev.target.parentNode.offsetLeft - 2) + 'px';
+    // child.style.background = '#DF2C68'
+    // console.log('active element => ' + child.id);    
+
+    // dyna.activeElement = dyna.findActiveElement(child.id);
+    // //console.log(dyna.activeElement.id);
+
+    // dyna.activeElement.parent = ev.target.id;
+
+    // dyna.setElementList();
+    // dyna.updateStyle();
+
+    // console.log('parent of ac.tive element => ' + dyna.activeElement.parent);
+
+  }
+
+  magnet(){ }
 
 }
