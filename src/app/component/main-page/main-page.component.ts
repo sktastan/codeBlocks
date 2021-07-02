@@ -8,6 +8,8 @@ import { Component,
 import { BlocksComponent } from '../blocks/blocks.component';
 // import { Data } from '@angular/router';
 
+// import {drag, dragover, drop} from '../blocks/blocks.component';
+
 export var data = new Array(); 
 
 @Component({
@@ -28,7 +30,7 @@ export class MainPageComponent implements AfterViewInit {
   //--------------------------------------------------------//
 	//  ngOnInit           
 	//--------------------------------------------------------//
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   //--------------------------------------------------------//
 	//  ngAfterViewInit           
@@ -110,7 +112,7 @@ export class MainPageComponent implements AfterViewInit {
     data.push(JSON.parse(JSON.stringify(ref.instance.blocksData)));
     // console.log(data);
 
-    let refIns = ref.instance;    
+    // let refIns = ref.instance;    
     // console.log({refIns}); 
   }
 

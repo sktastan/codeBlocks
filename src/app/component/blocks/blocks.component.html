@@ -1,4 +1,6 @@
-<div #idClassBlock class="class-block">  
+<!-- <div #idClassBlock class="class-block" draggable="true" (dragstart)="drag($event)" (drop)="drop($event)" (dragover)="dragover($event)">   -->
+<!-- <div #idClassBlock class="class-block" (drop)="drop($event)" (dragover)="dragover($event)">  -->
+<div #idClassBlock class="class-block" draggable="true" (dragstart)="drag($event)" > 
     <div #idMoveSpot 
         (mousedown)= "moveSpotOnMouseDown($event)" 
         (mouseup)= "moveSpotOnMouseUp($event)" 
@@ -7,15 +9,20 @@
         class="move-spot">      
     </div> 
 
-    <p class="class-name">{{getNewClassName}}</p> 
+    <div class="class-block-container">
+        <p class="class-name">{{getNewClassName}}</p> 
 
-    <button #iddeleteClassBlockButton (click)="deleteClassBlockButtonOnClick($event)" 
-            class="delete-button">X</button> 
-            
-    <input type="text" name="getNewClassName" [(ngModel)]="getNewClassName" 
-        (change) = "inputOnChange($event)" 
-        (click) = "inputOnChange($event)" 
-        (focus)= "inputOnChange($event)" 
-        #idInputClassName class="input-class-name" value={{getNewClassName}}>
-    <ng-content></ng-content>
+        <button #iddeleteClassBlockButton (click)="deleteClassBlockButtonOnClick($event)" 
+                class="delete-button">X</button> 
+                
+        <input type="text" name="getNewClassName" [(ngModel)]="getNewClassName" 
+            (change) = "inputOnChange($event)" 
+            (click) = "inputOnChange($event)" 
+            (focus)= "inputOnChange($event)" 
+            #idInputClassName class="input-class-name" value={{getNewClassName}}>
+        <!-- <p>constructor</p> -->
+        <!-- <div class="hot-spot"></div> -->
+        <!-- <div draggable="true" (dragstart)="drag($event)" class="hot-spot"></div> -->
+        <div (drop)="drop($event)" (dragover)="dragover($event)" class="hot-spot"></div>        
+    </div>
 </div>

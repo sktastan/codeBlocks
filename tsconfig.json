@@ -3,7 +3,11 @@
   "compileOnSave": false,
   "compilerOptions": {
     "noImplicitAny": false,
-    "baseUrl": "./",
+    "baseUrl": ".",    
+    "paths": {
+      "@app/*": ["app/*"],
+      "@components/*": ["component/*"]
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
